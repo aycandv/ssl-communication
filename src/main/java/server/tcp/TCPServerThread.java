@@ -6,17 +6,16 @@ import java.io.*;
 import java.net.Socket;
 
 public class TCPServerThread extends Thread{
-    private boolean isAuthorized = false;
 
     private Socket socket;
     private BufferedReader bufferedReader;
-    private BufferedWriter bufferedWriter;
+    private PrintWriter printWriter;
 
     public TCPServerThread(Socket socket) {
         try {
             this.socket = socket;
             bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            printWriter = new PrintWriter(socket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -28,14 +27,13 @@ public class TCPServerThread extends Thread{
 
         try {
             if(isAuthorized()) {
-                System.out.println("Certificate is going to be sent to user " + socket.getInetAddress());
+                System.out.println("Certificate is going to be sent to user " + socket.getLocalAddress() + ":" + socket.getLocalPort());
+                printWriter.println("You are authorized. Certificate is forwarding.");
+                printWriter.flush();
                 sendCertificate();
             } else {
-                bufferedWriter.write("You are not authorized. Closing TCP connection.");
-                bufferedWriter.close();
-                bufferedReader.close();
-                socket.close();
-                System.out.println("Authorization is failed. User is kicked from the server.");
+                printWriter.write("You are not authorized. Closing TCP connection.");
+                disconnect();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,8 +42,16 @@ public class TCPServerThread extends Thread{
 
     }
 
+    public void disconnect() throws IOException {
+        printWriter.flush();
+        printWriter.close();
+        bufferedReader.close();
+        socket.close();
+        System.out.println("Authorization is failed. User is kicked from the server.");
+    }
+
     private void sendCertificate() {
-        File file = new File("server_crt.crt");
+        File file = new File(Constants.SERVER_CERTIFICATE_DIR);
 
         try {
             FileInputStream fileInputStream = new FileInputStream(file);
@@ -63,7 +69,7 @@ public class TCPServerThread extends Thread{
     }
 
     public boolean isAuthorized() throws IOException {
-        String passcode = new BufferedReader(new FileReader("src/main/java/server/tcp/user_info.txt")).readLine();
+        String passcode = new BufferedReader(new FileReader(Constants.USER_INFO)).readLine();
         String userInput = userPasscode();
 
         return userInput.contains(passcode);
@@ -72,7 +78,8 @@ public class TCPServerThread extends Thread{
     private String userPasscode() {
         String userInput = "<<invalid>>";
         try {
-            bufferedWriter.write("You are connected to Server via TCP. Please enter your passcode to get certificate from Server.\nPasscode");
+            printWriter.println("You are connected to Server via TCP. Please enter your passcode to get certificate from Server:");
+            printWriter.flush();
             userInput = bufferedReader.readLine();
         } catch (IOException e) {
             e.printStackTrace();

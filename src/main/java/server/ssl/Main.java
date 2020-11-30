@@ -1,5 +1,7 @@
 package server.ssl;
 
+import constants.Constants;
+
 /**
  * Copyright [2017] [Yahya Hassanzadeh-Nazarabadi]
 
@@ -17,9 +19,8 @@ package server.ssl;
  */
 public class Main
 {
-    public static void main(String args[])
-    {
-        SSLServer s = new SSLServer(4444);
+    public static void main(String args[]) {
+        SSLServer s = new SSLServer(Constants.TLS_SERVER_PORT);
     }
 
 }

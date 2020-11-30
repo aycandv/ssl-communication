@@ -1,5 +1,7 @@
 package client;
 
+import constants.Constants;
+
 /**
  * Copyright [2017] [Yahya Hassanzadeh-Nazarabadi]
 
@@ -19,27 +21,29 @@ public class Main
 {
     public final static String TLS_SERVER_ADDRESS = "localhost";
     public final static String MESSAGE_TO_TLS_SERVER = "hello from client";
-    public final static int TLS_SERVER_PORT = 4444;
+    public final static int TLS_SERVER_PORT = Constants.TLS_SERVER_PORT;
 
     public static void main(String[] args) throws Exception
     {
+        FetchCertificate certificate = new FetchCertificate(Constants.SERVER_NAME, Constants.TLS_CERTIFICATE_PORT);
+
         /*
         Creates an SSLConnectToServer object on the specified server address and port
          */
-        SSLConnectToServer sslConnectToServer = new SSLConnectToServer(TLS_SERVER_ADDRESS, TLS_SERVER_PORT);
+        //SSLConnectToServer sslConnectToServer = new SSLConnectToServer(TLS_SERVER_ADDRESS, TLS_SERVER_PORT);
         /*
         Connects to the server
          */
-        sslConnectToServer.Connect();
+        //sslConnectToServer.Connect();
 
         /*
         Sends a message over SSL socket to the server and prints out the received message from the server
          */
-        System.out.println(sslConnectToServer.SendForAnswer(MESSAGE_TO_TLS_SERVER));
+        //System.out.println(sslConnectToServer.SendForAnswer(MESSAGE_TO_TLS_SERVER));
 
         /*
         Disconnects from the SSL server
          */
-        sslConnectToServer.Disconnect();
+        //sslConnectToServer.Disconnect();
     }
 }

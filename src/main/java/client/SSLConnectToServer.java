@@ -1,5 +1,7 @@
 package client;
 
+import constants.Constants;
+
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
@@ -34,7 +36,7 @@ public class SSLConnectToServer
     /*
     Name of key store file
      */
-    private final String KEY_STORE_NAME =  "clientkeystore";
+    private final String KEY_STORE_NAME =  Constants.CLIENT_KEY_STORE_DIR;
     /*
     Password to the key store file
      */
@@ -60,7 +62,7 @@ public class SSLConnectToServer
 		CertificateFactory cf = CertificateFactory.getInstance("X.509");
 
 		// Load the certificate
-		InputStream caInput = new BufferedInputStream(new FileInputStream(new File("src/server_crt.crt")));
+		InputStream caInput = new BufferedInputStream(new FileInputStream(new File(Constants.CLIENT_CERTIFICATE_DIR)));
 
 		Certificate ca;
 		try {
