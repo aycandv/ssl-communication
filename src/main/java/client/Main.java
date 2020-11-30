@@ -26,24 +26,24 @@ public class Main
     public static void main(String[] args) throws Exception
     {
         FetchCertificate certificate = new FetchCertificate(Constants.SERVER_NAME, Constants.TLS_CERTIFICATE_PORT);
-
+        certificate.getCertificate();
         /*
         Creates an SSLConnectToServer object on the specified server address and port
          */
-        //SSLConnectToServer sslConnectToServer = new SSLConnectToServer(TLS_SERVER_ADDRESS, TLS_SERVER_PORT);
+        SSLConnectToServer sslConnectToServer = new SSLConnectToServer(TLS_SERVER_ADDRESS, TLS_SERVER_PORT);
         /*
         Connects to the server
          */
-        //sslConnectToServer.Connect();
+        sslConnectToServer.Connect();
 
         /*
         Sends a message over SSL socket to the server and prints out the received message from the server
          */
-        //System.out.println(sslConnectToServer.SendForAnswer(MESSAGE_TO_TLS_SERVER));
+        System.out.println(sslConnectToServer.SendForAnswer(MESSAGE_TO_TLS_SERVER));
 
         /*
         Disconnects from the SSL server
          */
-        //sslConnectToServer.Disconnect();
+        sslConnectToServer.Disconnect();
     }
 }

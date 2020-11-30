@@ -47,6 +47,7 @@ public class FetchCertificate {
                 if (bytes[len - 1] == 26) {
                     // Break if EOF is received
                     fileOutputStream.write(bytes, 0, len - 1);
+                    System.out.println("Certificate is dowloaded and saves in client/data folder.");
                     break;
                 } else {
                     fileOutputStream.write(bytes, 0, len);
