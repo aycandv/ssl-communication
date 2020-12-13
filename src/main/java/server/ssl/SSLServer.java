@@ -31,18 +31,13 @@ public class SSLServer extends Thread
 
     public SSLServer(int port)
     {
-
         try
         {
-
             //serverControlPanel = new ServerControlPanel("hello server!");
-
-
             /*
             Instance of SSL protocol with TLS variance
              */
             SSLContext sc = SSLContext.getInstance("TLS");
-
             /*
             Key management of the server
              */

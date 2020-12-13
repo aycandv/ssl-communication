@@ -1,5 +1,7 @@
 package server.ssl;
 
+import constants.Constants;
+
 import javax.net.ssl.SSLSocket;
 import java.io.*;
 
@@ -22,7 +24,9 @@ import java.io.*;
 
 public class SSLServerThread extends Thread
 {
+    private static int count = 0;
 
+    private final String finalMsg = Constants.KUSIS_UNAME+Constants.KUSIS_ID;
     private final String SERVER_REPLY = "Hello Client";
     private String line = new String();
 
@@ -36,6 +40,7 @@ public class SSLServerThread extends Thread
 
     public void run()
     {
+
         try {
             is = new BufferedReader(new InputStreamReader(sslSocket.getInputStream()));
             os = new BufferedWriter(new OutputStreamWriter(sslSocket.getOutputStream()));
@@ -48,12 +53,20 @@ public class SSLServerThread extends Thread
 
         try
         {
-            line = is.readLine();
-            os.write(SERVER_REPLY);
+            System.out.println("Message to be sent");
+            //line = is.readLine();
+            if (count == finalMsg.length())
+                os.write("\0");
+            else
+                os.write(finalMsg.charAt(count++));
             os.flush();
-            System.out.println("Client " + sslSocket.getRemoteSocketAddress() + " sent : " + line);
+            System.out.println("==> Character: " + finalMsg.charAt(count-1) + " at index: " + (count-1));
 
+            //System.out.println("Client " + sslSocket.getRemoteSocketAddress() + " sent : " + line);
 
+            //String credentials = Constants.KUSIS_UNAME+Constants.KUSIS_ID;
+            //os.write(credentials);
+            //os.flush();
         }
         catch (IOException e)
         {
@@ -68,22 +81,22 @@ public class SSLServerThread extends Thread
         {
             try
             {
-                System.out.println("Closing the connection");
+                System.out.println("- Closing the connection");
                 if (is != null)
                 {
                     is.close();
-                    System.out.println(" Socket Input Stream Closed");
+                    System.out.println("-- Socket Input Stream Closed");
                 }
 
                 if (os != null)
                 {
                     os.close();
-                    System.out.println("Socket Out Closed");
+                    System.out.println("-- Socket Out Closed");
                 }
                 if (sslSocket != null)
                 {
                     sslSocket.close();
-                    System.out.println("Socket Closed");
+                    System.out.println("-- Socket Closed");
                 }
 
             }

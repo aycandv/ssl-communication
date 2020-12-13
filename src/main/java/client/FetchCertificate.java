@@ -7,11 +7,6 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class FetchCertificate {
-    public static void main(String[] args) {
-        FetchCertificate fetchCertificate = new FetchCertificate(Constants.SERVER_NAME, Constants.TLS_CERTIFICATE_PORT);
-        fetchCertificate.getCertificate();
-    }
-
     private Socket socket;
     private BufferedReader bufferedReader;
     private PrintWriter printWriter;

@@ -2,7 +2,7 @@ package constants;
 
 public class Constants {
     public static final int BUFFER_SIZE = 2048;
-    public static final int TLS_SERVER_PORT = (59998 + 6) % 64512;
+    public static final int TLS_SERVER_PORT = (59998 + 6) % 64535;
     public static final int TLS_CERTIFICATE_PORT = 4444;
 
     public static final String SERVER_NAME = "localhost";
@@ -11,4 +11,6 @@ public class Constants {
     public static final String CLIENT_CERTIFICATE_DIR = "src/main/java/client/data/server_crt.crt";
     public static final String CLIENT_KEY_STORE_DIR = "src/main/java/client/data/clientkeystore";
 
+    public static final String KUSIS_UNAME = "avit16 ";
+    public static final String KUSIS_ID = "59998";
 }

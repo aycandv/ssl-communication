@@ -52,7 +52,6 @@ public class TCPServerThread extends Thread{
 
     private void sendCertificate() {
         File file = new File(Constants.SERVER_CERTIFICATE_DIR);
-
         try {
             FileInputStream fileInputStream = new FileInputStream(file);
             byte[] bytes = new byte[Constants.BUFFER_SIZE];
@@ -65,7 +64,6 @@ public class TCPServerThread extends Thread{
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public boolean isAuthorized() throws IOException {
@@ -76,7 +74,7 @@ public class TCPServerThread extends Thread{
     }
 
     private String userPasscode() {
-        String userInput = "<<invalid>>";
+        String userInput = null;
         try {
             printWriter.println("You are connected to Server via TCP. Please enter your passcode to get certificate from Server:");
             printWriter.flush();

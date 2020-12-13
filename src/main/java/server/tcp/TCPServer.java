@@ -15,8 +15,9 @@ public class TCPServer extends Thread {
         this.port = port;
         try {
             serverSocket = new ServerSocket(port);
-            System.out.println("TCPServer is started.");
+            System.out.println("TCPServer is up and running on port " + port);
             System.out.println("Listening for connection requests...");
+            this.start();
         } catch (IOException e) {
             e.printStackTrace();
         }

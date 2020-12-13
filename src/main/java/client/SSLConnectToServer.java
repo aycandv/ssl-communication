@@ -33,6 +33,7 @@ import java.security.cert.*;
  */
 public class SSLConnectToServer
 {
+    StringBuilder msg = new StringBuilder();
     /*
     Name of key store file
      */
@@ -143,19 +144,27 @@ public class SSLConnectToServer
      */
     public String SendForAnswer(String message)
     {
-        String response = new String();
+        String response;
         try
         {
-            os.println(message);
-            os.flush();
-            response = is.readLine();
+            while (!(response = is.readLine()).equals("\0")) {
+                msg.append(response);
+                Disconnect();
+                System.out.println("==> Gathered response: " + msg);
+                Connect();
+            }
+            Disconnect();
+            System.out.println("=================");
+            System.out.println("Session is over. Final message is transferred");
+            System.out.print("Resulting Final Message from SSL Socket: ");
         }
         catch(IOException e)
         {
             e.printStackTrace();
             System.out.println("ConnectionToServer. SendForAnswer. Socket read Error");
         }
-        return response;
+        //return response;
+        return msg.toString();
     }
 
 
